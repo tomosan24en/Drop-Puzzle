@@ -110,7 +110,7 @@ class GameState(Enum):
 
 class App:
     def __init__(self) -> None:
-        pyxel.init(8 * (BOARD_WIDTH + 4), 8 * (BOARD_HEIGHT + 3), title="Puyo", fps=30)
+        pyxel.init(8 * (BOARD_WIDTH + 3), 8 * (BOARD_HEIGHT + 2), title="Puyo", fps=30)
         pyxel.load("./resource.pyxres")
         self.initialize()
         pyxel.run(self.update, self.draw)
@@ -121,7 +121,7 @@ class App:
         self.puyo = generate_random_puyo()
         self.next = generate_random_puyo()
         self.puyo_x = 2
-        self.puyo_y = 1
+        self.puyo_y = 0
         self.state = GameState.OPERATING
         self.dropping_puyos = []
 
@@ -132,7 +132,7 @@ class App:
         match self.state:
             case GameState.OPERATING:
                 self._handle_operation()
-                if pyxel.frame_count % 20 == 0 or pyxel.btnp(pyxel.KEY_DOWN):
+                if pyxel.frame_count % 20 == 19 or pyxel.btnp(pyxel.KEY_DOWN):
                     stop = self._drop_puyo()
                     if stop:
                         self.state = GameState.DROPPING
@@ -160,7 +160,7 @@ class App:
 
     def _next_puyo(self) -> None:
         self.puyo_x = 2
-        self.puyo_y = 1
+        self.puyo_y = 0
         self.puyo = self.next
         self.next = generate_random_puyo()
 
